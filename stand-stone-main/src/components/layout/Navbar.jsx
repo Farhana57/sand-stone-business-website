@@ -31,7 +31,6 @@ export function Navbar() {
     }
   }, [menuOpen])
 
-  // "Padma" শব্দ সরিয়ে দিয়ে শুধু "Sand & Stone" বা "স্যান্ড অ্যান্ড স্টোন" ফিল্টার
   const fullBrand = pick(company.name) || ''
   const brand = fullBrand.replace(/পদ্মা\s*/i, '').replace(/Padma\s*/i, '').trim() || (language === 'bn' ? 'স্যান্ড অ্যান্ড স্টোন' : 'Sand & Stone')
   const tagline = pick(company.tagline)
@@ -42,7 +41,7 @@ export function Navbar() {
     }`
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 w-full">
+    <header className="fixed inset-x-0 top-0 z-50 w-full bg-slate-950 lg:bg-transparent">
       {/* Utility strip — desktop only */}
       <div className="hidden border-b border-blue-800/40 bg-blue-950/95 text-xs text-slate-300 backdrop-blur lg:block">
         <div className="container-x flex h-9 items-center justify-between">
@@ -60,13 +59,7 @@ export function Navbar() {
         </div>
       </div>
 
-      <div
-        className={`transition-all duration-300 ${
-          scrolled || menuOpen
-            ? 'border-b border-amber-500/20 bg-slate-900 shadow-xl backdrop-blur-md'
-            : 'bg-slate-900/90 backdrop-blur-md lg:bg-gradient-to-b lg:from-blue-950/90 lg:to-transparent'
-        }`}
-      >
+      <div className="border-b border-amber-500/20 bg-slate-950 shadow-lg lg:bg-slate-900/95 lg:backdrop-blur-md">
         <div className="container-x flex h-16 items-center justify-between gap-4 lg:h-20">
           {/* Brand with Icon */}
           <Link to="/" onClick={closeMenu} className="group flex items-center gap-3">
@@ -122,7 +115,7 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile drawer with scroll support */}
+      {/* Mobile drawer */}
       <div
         id="mobile-menu"
         className={`overflow-y-auto border-b border-amber-500/20 bg-slate-950 transition-all duration-300 lg:hidden ${
