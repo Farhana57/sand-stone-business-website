@@ -31,8 +31,8 @@ export function Navbar() {
     }
   }, [menuOpen])
 
-  const fullBrand = pick(company.name) || ''
-  const brand = fullBrand.replace(/পদ্মা\s*/i, '').replace(/Padma\s*/i, '').trim() || (language === 'bn' ? 'স্যান্ড অ্যান্ড স্টোন' : 'Sand & Stone')
+  // ব্র্যান্ড নাম: বাংলায় "বালু পাথর সিলেট" এবং ইংরেজিতে "Balu Pathor Sylhet"
+  const brand = language === 'bn' ? 'বালু পাথর সিলেট' : 'Balu Pathor Sylhet'
   const tagline = pick(company.tagline)
 
   const linkClass = ({ isActive }) =>
@@ -41,9 +41,9 @@ export function Navbar() {
     }`
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 w-full bg-slate-950 lg:bg-transparent">
+    <header className="sticky top-0 left-0 right-0 z-[999] w-full bg-slate-950">
       {/* Utility strip — desktop only */}
-      <div className="hidden border-b border-blue-800/40 bg-blue-950/95 text-xs text-slate-300 backdrop-blur lg:block">
+      <div className="hidden border-b border-blue-800/40 bg-blue-950 text-xs text-slate-300 lg:block">
         <div className="container-x flex h-9 items-center justify-between">
           <div className="flex items-center gap-6">
             <a href={buildTelLink(company.phone)} className="flex items-center gap-2 transition hover:text-amber-300">
@@ -59,7 +59,14 @@ export function Navbar() {
         </div>
       </div>
 
-      <div className="border-b border-amber-500/20 bg-slate-950 shadow-lg lg:bg-slate-900/95 lg:backdrop-blur-md">
+      {/* Main Navbar Bar */}
+      <div
+        className={`w-full border-b transition-all duration-200 ${
+          scrolled
+            ? 'border-amber-500/40 bg-slate-950 shadow-xl shadow-black/50'
+            : 'border-amber-500/20 bg-slate-950 shadow-md'
+        }`}
+      >
         <div className="container-x flex h-16 items-center justify-between gap-4 lg:h-20">
           {/* Brand with Icon */}
           <Link to="/" onClick={closeMenu} className="group flex items-center gap-3">
@@ -73,7 +80,9 @@ export function Navbar() {
               <span className="block text-base font-bold text-white transition group-hover:text-amber-300 sm:text-lg">
                 {brand}
               </span>
-              <span className="hidden text-[11px] text-slate-300 sm:block">{tagline}</span>
+              {tagline && (
+                <span className="hidden text-[11px] text-slate-300 sm:block">{tagline}</span>
+              )}
             </span>
           </Link>
 
@@ -96,7 +105,11 @@ export function Navbar() {
             >
               {t('nav.callNow')}
             </Button>
-            <Button to="/contact" size="sm" className="hidden bg-amber-500 font-semibold text-slate-950 hover:bg-amber-600 md:inline-flex">
+            <Button
+              to="/contact"
+              size="sm"
+              className="hidden bg-amber-500 font-semibold text-slate-950 hover:bg-amber-600 md:inline-flex"
+            >
               {t('nav.orderNow')}
             </Button>
 
@@ -107,7 +120,7 @@ export function Navbar() {
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               aria-label={menuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-amber-500/40 text-amber-300 transition hover:bg-amber-500/10 lg:hidden"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-amber-500/40 bg-slate-900 text-amber-300 transition hover:bg-amber-500/10 lg:hidden"
             >
               {menuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
             </button>
@@ -118,7 +131,7 @@ export function Navbar() {
       {/* Mobile drawer */}
       <div
         id="mobile-menu"
-        className={`overflow-y-auto border-b border-amber-500/20 bg-slate-950 transition-all duration-300 lg:hidden ${
+        className={`fixed inset-x-0 top-16 z-[998] overflow-y-auto border-b border-amber-500/30 bg-slate-950 shadow-2xl transition-all duration-300 lg:hidden ${
           menuOpen ? 'max-h-[calc(100vh-4rem)] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
         }`}
       >
@@ -159,7 +172,13 @@ export function Navbar() {
               {t('actions.whatsapp')}
             </Button>
           </div>
-          <Button to="/contact" size="md" fullWidth className="mt-2 bg-amber-500 font-semibold text-slate-950 hover:bg-amber-600" onClick={closeMenu}>
+          <Button
+            to="/contact"
+            size="md"
+            fullWidth
+            className="mt-2 bg-amber-500 font-semibold text-slate-950 hover:bg-amber-600"
+            onClick={closeMenu}
+          >
             {t('nav.orderNow')}
           </Button>
         </div>
